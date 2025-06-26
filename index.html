@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz Celebration</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #fcd6f6, #e0c3fc);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .quiz-container {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      transition: all 1.2s ease-in-out;
+    }
+
+    h2 {
+      color: #7f00ff;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      border: 2px solid #dda0dd;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #ba55d3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #9b30ff;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #6a0dad;
+    }
+
+    /* Animation for exit */
+    @keyframes slideFadeOut {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(200px);
+        opacity: 0;
+      }
+    }
+
+    .slide-fade-out {
+      animation: slideFadeOut 1.2s ease-in-out forwards;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-container" id="quizBox">
+    <h2>Which beautiful day doubled its charm by coming around twice?</h2>
+    <input type="text" id="answer" placeholder="Type your ans here diya" />
+    <br />
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    function cornerConfetti() {
+      confetti({
+        origin: { x: 0, y: 1 },
+        angle: 60,
+        spread: 60,
+        particleCount: 100,
+        startVelocity: 60
+      });
+
+      confetti({
+        origin: { x: 1, y: 1 },
+        angle: 120,
+        spread: 60,
+        particleCount: 100,
+        startVelocity: 60
+      });
+    }
+
+    function checkAnswer() {
+      const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
+      const messageEl = document.getElementById("message");
+      const quizBox = document.getElementById("quizBox");
+
+      if (userAnswer === "0909") {
+        messageEl.textContent = "🎉 Correct! Well done diya!";
+        cornerConfetti();
+        quizBox.classList.add("slide-fade-out");
+
+        setTimeout(() => {
+          window.location.href = "next.html";
+        }, 1500); // Delay for animation
+      } else {
+        messageEl.textContent = "❌ Oops! Try again diya.";
+      }
+    }
+
+    document.getElementById("answer").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        checkAnswer();
+      }
+    });
+  </script>
+
+</body>
+</html>

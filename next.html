@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>To My Love</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #fcd6f6, #e0c3fc);
+      font-family: 'Georgia', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      transition: background 2s ease;
+    }
+
+    .letter, .side-button-container {
+      position: relative;
+      z-index: 2;
+      transition: all 2s ease, opacity 1.5s ease;
+    }
+
+    .letter {
+      width: 400px;
+      max-width: 100%;
+      padding: 30px 25px;
+      background: #fffdf6;
+      border: 2px solid #d4afcd;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      animation: floatUp 2s ease-out, pulse 3s infinite ease-in-out;
+    }
+
+    .letter h2 {
+      color: #c71585;
+      font-family: 'Segoe Script', cursive;
+    }
+
+    .letter p {
+      color: #5e3370;
+      font-size: 16px;
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    .stamp {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      width: 100px;
+      height: 100px;
+    }
+
+    .stamp img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0.8;
+    }
+
+    .flower-emoji {
+      position: absolute;
+      top: -40px;
+      font-size: 24px;
+      opacity: 0.8;
+      animation: fall linear infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .side-button-container {
+      position: absolute;
+      right: 5%;
+      top: 30%;
+      width: 260px;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .side-button-container p {
+      font-size: 20px;
+      color: #5e3370;
+      margin-bottom: 10px;
+    }
+
+    .kiss-button {
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #d36ac2;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .firework-btn {
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #000000;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .kiss-button:hover, .firework-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .fade-out {
+      opacity: 0;
+      transform: translateY(100px);
+      pointer-events: none;
+    }
+
+    .night {
+      background: radial-gradient(ellipse at bottom, #0d1b2a 0%, #000 100%);
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle 2s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    .shooting-star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      box-shadow: 0 0 10px 4px white;
+      animation: shoot 4s linear forwards;
+    }
+
+    @keyframes shoot {
+      0% {
+        transform: translate(0, 0);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-300px, 300px);
+        opacity: 0;
+      }
+    }
+
+    .firework-btn {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      z-index: 3;
+      opacity: 0;
+      transition: transform 2s ease, opacity 2s ease;
+    }
+
+    .firework-btn.visible {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .constellation-star {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: #ffffff;
+      box-shadow: 0 0 8px 3px #fff;
+      border-radius: 50%;
+      z-index: 3;
+      opacity: 0.9;
+    }
+
+    .constellation-line {
+      position: absolute;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.6);
+      z-index: 2;
+      transform-origin: 0 0;
+    }
+
+    .firework-particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      pointer-events: none;
+      will-change: transform, opacity;
+      opacity: 1;
+    }
+
+    @keyframes explodeParticle {
+      to {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="letter" id="letter">
+    <h2>Happy Birthday My Dearest Bestie,</h2>
+    <p><i>
+      To the most beautiful soul I know,<br>
+      Today isn’t just another day — it’s the day the world became better because you were born. Every moment with you is something I cherish — your smile, your passion, your warmth, your love. You are my peace, my strength, and my whole heart. And no matter where life takes us, we’ll always stay together — soulmates and forever BFFs. 🤍 <br>
+    So, on your special day, I just want to say thank you —<br>
+    For being born.<br>
+    For being you.<br>
+    For loving me.<br>
+    For letting me love you.<br>
+    I hope today brings you joy, peace, and all the happiness your beautiful heart deserves.<br><br>
+      Here’s to a beautiful year ahead 🥂<br>
+      <em>Kavan 💖</em>
+      </i>
+    </p>
+    <div class="stamp">
+      <img src="Group 1.png" alt="Stamp" />
+    </div>
+  </div>
+
+  <div class="side-button-container" id="buttonContainer">
+    <p>Once you read the letter,<br>let's ignite the firecrackers to celebrate your 20th birthday.</p>
+    <button class="kiss-button" onclick="nextPage()">Kiss me with cursor 💋</button>
+  </div>
+
+  <button class="firework-btn" id="fireworkBtn" onclick="launchFireworks()">Click to ignite fireworks 🎇</button>
+
+  <script>
+    const flowerEmojis = ["🌸", "🌼", "🌺", "🌻", "🌷", "🌹", "🌾", "🌿"];
+    const flowers = [];
+
+    for (let i = 0; i < 50; i++) {
+      const flower = document.createElement("div");
+      flower.classList.add("flower-emoji");
+      flower.innerText = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)];
+      flower.style.left = Math.random() * 100 + "vw";
+      flower.style.animationDuration = (4 + Math.random() * 4) + "s";
+      flower.style.animationDelay = Math.random() * 5 + "s";
+      flower.style.fontSize = (20 + Math.random() * 10) + "px";
+      document.body.appendChild(flower);
+      flowers.push(flower);
+    }
+
+    function nextPage() {
+      document.getElementById("letter").classList.add("fade-out");
+      document.getElementById("buttonContainer").classList.add("fade-out");
+      flowers.forEach(flower => flower.remove());
+      document.body.classList.add("night");
+      createStarsGradual(150);
+      launchShootingStars();
+      drawConstellation("O");
+      drawConstellation("D");
+
+      const fireworkBtn = document.getElementById("fireworkBtn");
+      fireworkBtn.style.display = "block";
+      setTimeout(() => {
+        fireworkBtn.classList.add("visible");
+      }, 2000);
+    }
+
+    function createStarsGradual(count) {
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement("div");
+        star.classList.add("star");
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.top = Math.random() * 100 + "vh";
+        star.style.animationDelay = (Math.random() * 2) + "s";
+        document.body.appendChild(star);
+
+        setTimeout(() => {
+          star.style.opacity = 1;
+        }, i * 15);
+      }
+    }
+
+    function launchShootingStars() {
+      setInterval(() => {
+        const star = document.createElement("div");
+        star.classList.add("shooting-star");
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.top = Math.random() * 50 + "vh";
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 2000);
+      }, 5000);
+    }
+
+    function launchFireworks() {
+      const colors = ['#ff0043', '#14fc56', '#1e7fff', '#f9f871', '#ff6f61', '#9d4edd', '#16db93'];
+      const numFireworks = 5;
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+
+      for (let i = 0; i < numFireworks; i++) {
+        setTimeout(() => {
+          createFirework(
+            Math.random() * screenWidth * 0.8 + screenWidth * 0.1,
+            Math.random() * screenHeight * 0.5 + screenHeight * 0.1,
+            colors[Math.floor(Math.random() * colors.length)]
+          );
+        }, i * 600);
+      }
+    }
+
+    function createFirework(x, y, color) {
+      const particlesCount = 30;
+      for (let i = 0; i < particlesCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('firework-particle');
+        particle.style.backgroundColor = color;
+        particle.style.left = x + 'px';
+        particle.style.top = y + 'px';
+
+        const angle = (Math.PI * 2 * i) / particlesCount;
+        const distance = 100 + Math.random() * 50;
+        const tx = Math.cos(angle) * distance + 'px';
+        const ty = Math.sin(angle) * distance + 'px';
+
+        particle.style.setProperty('--tx', tx);
+        particle.style.setProperty('--ty', ty);
+        particle.style.animation = 'explodeParticle 1.5s forwards ease-out';
+        particle.addEventListener('animationend', () => particle.remove());
+        document.body.appendChild(particle);
+      }
+    }
+
+    function drawConstellation(initial) {
+      let points = [];
+
+      if (initial === "O") {
+        points = [
+          { x: 35, y: 25 }, { x: 30, y: 35 }, { x: 30, y: 45 },
+          { x: 35, y: 55 }, { x: 45, y: 55 }, { x: 50, y: 45 },
+          { x: 50, y: 35 }, { x: 45, y: 25 }, { x: 35, y: 25 }
+        ];
+      } else if (initial === "D") {
+        points = [
+          { x: 65, y: 25 }, { x: 65, y: 55 }, { x: 70, y: 58 },
+          { x: 78, y: 50 }, { x: 80, y: 40 }, { x: 78, y: 30 },
+          { x: 70, y: 25 }, { x: 65, y: 25 }
+        ];
+      }
+
+      const screenW = window.innerWidth;
+      const screenH = window.innerHeight;
+
+      for (let i = 0; i < points.length; i++) {
+        const px = (points[i].x / 100) * screenW;
+        const py = (points[i].y / 100) * screenH;
+
+        const star = document.createElement('div');
+        star.classList.add('constellation-star');
+        star.style.left = px + 'px';
+        star.style.top = py + 'px';
+        document.body.appendChild(star);
+
+        if (i > 0) {
+          const prev = points[i - 1];
+          const dx = ((points[i].x - prev.x) / 100) * screenW;
+          const dy = ((points[i].y - prev.y) / 100) * screenH;
+          const length = Math.sqrt(dx * dx + dy * dy);
+          const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+          const line = document.createElement('div');
+          line.classList.add('constellation-line');
+          line.style.width = length + 'px';
+          line.style.left = ((prev.x / 100) * screenW) + 'px';
+          line.style.top = ((prev.y / 100) * screenH) + 'px';
+          line.style.transform = `rotate(${angle}deg)`;
+          document.body.appendChild(line);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
